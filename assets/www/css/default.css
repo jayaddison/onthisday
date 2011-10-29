@@ -1,0 +1,36 @@
+body {
+	font-family: sans-serif;
+}
+
+#header {
+}
+
+#header {
+	float: left;
+
+	font-size: 24px;
+}
+
+#controls {
+	float: right;
+}
+
+#content {
+	clear: both;
+
+	padding-top: 16px;
+	padding-bottom: 16px;
+}
+
+#content div.title {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+#content ul li {
+	padding: 4px;
+}
+
+#content ul li div.year {
+	font-weight: bold;
+}

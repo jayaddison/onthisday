@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>onthisday</title>
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <script type="text/javascript" charset="utf-8" src="js/phonegap.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8">
+    
+    	var monthDurations = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    	
+    	function onLoad() {
+    		document.addEventListener("deviceready", onDeviceReady, false);
+
+    		$('#month').change(function() { onMonthChange(); onDateChange(); });
+    		$('#day').change(function() { onDateChange(); });
+
+    		onMonthChange();
+    		onDateChange();
+    	}
+    	
+    	function onDeviceReady() {
+    	}
+    	
+    	function onMonthChange() {
+    	
+    		// Clear the date selector
+    		var day = $('#day');
+    		var sel = day.val();
+    		day.empty();
+
+			// Repopulate the dates as appropriate for this month
+    		for (var i = 1; i < monthDurations[$('#month').val()] + 1; i++) {
+    			$('<option value="' + i + '">' + i + '</option>').appendTo(day);
+    		}
+    		
+    		// Keep the user's date selection if possible
+    		day.val(sel);
+    	}
+    	
+    	function onDateChange() {
+    	
+    		var month = $('#month').val();
+    		var day = $('#day').val();
+    		var path = 'data/' + month + '/' + day + '.json';
+    		
+    		$('#content ul').empty();
+    		
+    		$.getJSON(path, function(data) {
+    		
+    			for (var i in data.events) {
+    			
+    				var year = data.events[i].year;
+    				var text = data.events[i].text;
+
+    				var container = $('<li />');
+    				$('<div class="year">' + year + '</div>').appendTo(container);
+    				$('<div class="text">' + text + '</div>').appendTo(container);
+
+    				container.appendTo($('#events ul'));
+    			}
+    		
+    			for (var i in data.births) {
+    			
+    				var year = data.births[i].year;
+    				var text = data.births[i].text;
+
+    				var container = $('<li />');
+    				$('<div class="year">' + year + '</div>').appendTo(container);
+    				$('<div class="text">' + text + '</div>').appendTo(container);
+
+    				container.appendTo($('#births ul'));
+    			}
+    		
+    			for (var i in data.deaths) {
+    			
+    				var year = data.deaths[i].year;
+    				var text = data.deaths[i].text;
+
+    				var container = $('<li />');
+    				$('<div class="year">' + year + '</div>').appendTo(container);
+    				$('<div class="text">' + text + '</div>').appendTo(container);
+
+    				container.appendTo($('#deaths ul'));
+    			}
+    		
+    		});
+
+    	}
+
+    </script>
+  </head>
+  <body onLoad="onLoad()">
+  
+    <span id="header">on this day...</span>
+    <span id="controls">
+
+      <select id="month" name="month">
+        <option value="0">January</option>
+        <option value="1">February</option>
+        <option value="2">March</option>
+        <option value="3">April</option>
+        <option value="4">May</option>
+        <option value="5">June</option>
+        <option value="6">July</option>
+        <option value="7">August</option>
+        <option value="8">September</option>
+        <option value="9">October</option>
+        <option value="10">November</option>
+        <option value="11">December</option>
+      </select>
+      <select id="day" name="day"></select>
+
+    </span>
+
+    <div id="content">
+
+      <div id="events">
+        <div class="title">Events</div>
+        <ul />
+      </div>
+      <div id="births">
+        <div class="title">Births</div>
+        <ul />
+      </div>
+      <div id="deaths">
+        <div class="title">Deaths</div>
+        <ul />
+      </div>
+
+    </div>
+  </body>
+</html>
