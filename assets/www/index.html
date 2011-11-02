@@ -6,24 +6,29 @@
     <script type="text/javascript" charset="utf-8" src="js/phonegap.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
     <script type="text/javascript" charset="utf-8">
-    
+
     	var monthDurations = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    	
+
     	function onLoad() {
     		document.addEventListener("deviceready", onDeviceReady, false);
 
+    		var date = new Date();
+
+    		$('#month').val(date.getMonth());
+    		onMonthChange();
+
+    		$('#day').val(date.getDate());
+    		onDateChange();
+
     		$('#month').change(function() { onMonthChange(); onDateChange(); });
     		$('#day').change(function() { onDateChange(); });
-
-    		onMonthChange();
-    		onDateChange();
     	}
-    	
+   	
     	function onDeviceReady() {
     	}
-    	
+
     	function onMonthChange() {
-    	
+
     		// Clear the date selector
     		var day = $('#day');
     		var sel = day.val();
@@ -33,23 +38,23 @@
     		for (var i = 1; i < monthDurations[$('#month').val()] + 1; i++) {
     			$('<option value="' + i + '">' + i + '</option>').appendTo(day);
     		}
-    		
+
     		// Keep the user's date selection if possible
     		day.val(sel);
     	}
-    	
+
     	function onDateChange() {
-    	
+
     		var month = $('#month').val();
     		var day = $('#day').val();
     		var path = 'data/' + month + '/' + day + '.json';
-    		
+
     		$('#content ul').empty();
-    		
+
     		$.getJSON(path, function(data) {
-    		
+
     			for (var i in data.events) {
-    			
+
     				var year = data.events[i].year;
     				var text = data.events[i].text;
 
@@ -59,9 +64,9 @@
 
     				container.appendTo($('#events ul'));
     			}
-    		
+
     			for (var i in data.births) {
-    			
+
     				var year = data.births[i].year;
     				var text = data.births[i].text;
 
@@ -71,9 +76,9 @@
 
     				container.appendTo($('#births ul'));
     			}
-    		
+
     			for (var i in data.deaths) {
-    			
+
     				var year = data.deaths[i].year;
     				var text = data.deaths[i].text;
 
@@ -83,15 +88,13 @@
 
     				container.appendTo($('#deaths ul'));
     			}
-    		
     		});
-
     	}
 
     </script>
   </head>
   <body onLoad="onLoad()">
-  
+
     <span id="header">on this day...</span>
     <span id="controls">
 
