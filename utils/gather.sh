@@ -4,7 +4,8 @@ BASE=`dirname $0`
 
 for month in `seq 1 12`;
 do
-	monthdir=${BASE}/data/${month};
+	monthidx=$((month - 1));
+	monthdir=${BASE}/data/${monthidx};
 	monthname=`date -d 2000-${month}-01 +%B`;
 
 	mkdir -p ${monthdir};
