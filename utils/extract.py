@@ -23,7 +23,7 @@ page = urllib2.urlopen('http://en.wikipedia.org/w/index.php?action=raw&title=%s'
 tree = parseString(title, page)
 
 # Add some utility methods to the item
-advtree.extendClasses(item)
+advtree.extendClasses(tree)
 
 # Iterate through the items listed in the wiki page
 results = {}
