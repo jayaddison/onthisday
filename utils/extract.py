@@ -22,6 +22,9 @@ title = sys.argv[1]
 page = urllib2.urlopen('http://en.wikipedia.org/w/index.php?action=raw&title=%s' % title).read().decode('utf-8')
 tree = parseString(title, page)
 
+# Add some utility methods to the item
+advtree.extendClasses(item)
+
 # Iterate through the items listed in the wiki page
 results = {}
 for node in tree.allchildren():
@@ -33,9 +36,6 @@ for node in tree.allchildren():
 		results[section] = []
 
 		for item in [x.children[0] for x in node.children[1].allchildren() if isinstance(x, Item)]:
-
-			# Add some utility methods to the item
-			advtree.extendClasses(item)
 
 			# Extract the year and text from the item
 			raw = item.getAllDisplayText().strip()
