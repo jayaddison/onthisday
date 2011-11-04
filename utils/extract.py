@@ -4,7 +4,7 @@ import simplejson as json
 import logging
 import re
 
-from mwlib.parser import Section, Item
+from mwlib.parser import Section, Item, Link
 from mwlib.uparser import parseString
 from mwlib.utils import fetch_url
 from mwlib import advtree
@@ -32,6 +32,8 @@ for node in tree.allchildren():
 	if isinstance(node, Section) and node.children[0].asText().strip() in (u'Events', u'Births', u'Deaths'):
 
 		section = node.children[0].asText().strip().lower().encode('utf-8')
+		if not section == "events":
+			continue
 
 		results[section] = []
 
@@ -39,7 +41,7 @@ for node in tree.allchildren():
 
 			# Extract the year and text from the item
 			raw = item.getAllDisplayText().strip()
-			matches = re.match(u'(.*)[\s]*(\u2013|&ndash;)[\s]*(.*)', raw)
+			matches = re.match(u'([^\u2013]*)[\s]*(\u2013|&ndash;)[\s]*(.*)', raw)
 
 			if not matches:
 				logging.log(logging.WARN, '%s - Unable to split year and text from string: "%s"' % (title, raw))
