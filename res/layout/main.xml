@@ -4,5 +4,5 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-<DatePicker android:id="@+id/datePicker1" android:layout_height="wrap_content" android:layout_width="match_parent"></DatePicker>
+<DatePicker android:id="@+id/datePicker1" android:layout_height="wrap_content" ></DatePicker>
 </LinearLayout>
