@@ -32,8 +32,6 @@ for node in tree.allchildren():
 	if isinstance(node, Section) and node.children[0].asText().strip() in (u'Events', u'Births', u'Deaths'):
 
 		section = node.children[0].asText().strip().lower().encode('utf-8')
-		if not section == "events":
-			continue
 
 		results[section] = []
 
